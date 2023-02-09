@@ -7,5 +7,11 @@ namespace TickTick.Api.Dtos.Persons
 		public string LastName { get; set; }
 		public string Email { get; set; }
 	}
+    public record UpdatePersonDto
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+    }
 }
 

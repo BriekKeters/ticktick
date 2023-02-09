@@ -60,6 +60,29 @@ namespace TickTick.Api.Controllers
             return Ok(person.ConvertToDto());
         }
 
+        [HttpGet("/v{v:apiVersion}/[controller]/{id:Guid}/locations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<LocationDto>), 200)]
+        public IActionResult GetPersonLocation(Guid id)
+        {
+            //TODO: Haal een persoon op
+            List<Location> locations = new()
+            {
+                new Location("Ghent", "Belgium"),
+                new Location("Aalst", "Belgium"),
+                new Location("Poperinge", "Belgium"),
+                new Location("Kortrijk", "Belgium"),
+                new Location("Mechelen", "Belgium"),
+
+            };
+            List<LocationDto> dtos = new List<LocationDto>();
+            locations.ForEach(loc => { dtos.Add(loc.ConvertToDto()); });
+            return Ok(new Response<IEnumerable<LocationDto>>(dtos));
+        }
+
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -80,8 +103,20 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 201)]
         public IActionResult Post([FromBody] AddPersonDto person)
         {
-            PersonDto p = svc.AddPersonDto(person);
+            PersonDto p = svc.AddPerson(person);
             return CreatedAtAction(nameof(Get), new { id = p.PublicId }, person);
+        }
+
+        [HttpPut("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<PersonDto>), 201)]
+        public IActionResult Put(Guid id, [FromBody]PersonDto dto)
+        {
+            PersonDto newP = svc.UpdatePerson(id, dto);
+            return Ok(newP);
         }
     }
 }

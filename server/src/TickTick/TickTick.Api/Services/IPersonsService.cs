@@ -6,6 +6,7 @@ namespace TickTick.Api
     public interface IPersonsService
     {
         void DeletePerson(Guid id);
-        PersonDto AddPersonDto(AddPersonDto dto);
+        PersonDto AddPerson(AddPersonDto dto);
+        PersonDto UpdatePerson(Guid id, PersonDto dto);
     }
 }

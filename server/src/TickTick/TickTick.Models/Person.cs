@@ -30,7 +30,42 @@ namespace TickTick.Models
         public void Delete() {
             this.IsDeleted = true;
         }
-        
+
+        public void update(PersonDto dto)
+        {
+            this.FirstName = dto.FirstName;
+            this.LastName = dto.LastName;
+            this.Email = dto.Email;
+            this.DateOfBirth = dto.DateOfBirth;
+            this.MiddleName = dto.MiddleName;
+
+        }
+
+        public void AddLocation(Location loc)
+        {
+            if(this.Addresses == null)
+            {
+                this.Addresses = new List<Location>();
+            }
+            this.Addresses.Add(loc);
+        }
+
+        public void RemoveLocation(Location loc)
+        {
+            if (this.Addresses != null)
+            {
+                this.Addresses.Remove(loc);
+            }
+        }
+
+        public void RemoveLocation(long id)
+        {
+            if (this.Addresses != null)
+            {
+                this.Addresses.Remove(this.Addresses.FirstOrDefault(l => l.Id == id));
+            }
+        }
+
         public override string ToString()
         {
             return $"{this.FirstName} {this.LastName}";

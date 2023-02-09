@@ -13,9 +13,9 @@ namespace TickTick.Api
 
         public void DeletePerson(Guid id)
         {
-
+            //TODO databaze shizzle
         }
-        public PersonDto AddPersonDto(AddPersonDto dto)
+        public PersonDto AddPerson(AddPersonDto dto)
         {
             Person person = new Person(
                 dto.FirstName,
@@ -23,6 +23,17 @@ namespace TickTick.Api
                 dto.Email
                 );
             person.CreatePublicId();
+            return person.ConvertToDto();
+        }
+        public PersonDto UpdatePerson(Guid id, PersonDto dto)
+        {
+            //TODO databaze shizzle
+            Person person = new Person(
+                dto.FirstName,
+                dto.LastName,
+                dto.Email
+                );
+            person.update(dto);
             return person.ConvertToDto();
         }
     }

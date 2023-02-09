@@ -39,6 +39,14 @@ namespace TickTick.Models
             
         }
 
+        public Location(string city,
+                        string country)
+        {
+            this.City = city;
+            this.Country = country;
+
+        }
+
         public Location(string street,
                 string nr,
                 string city,

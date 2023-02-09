@@ -5,7 +5,8 @@ using TickTick.Models.Dtos;
 
 namespace TickTick.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/v{v:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     [ApiController]
     public class LocationsController : ControllerBase
     {
