@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TickTick.Models.Dtos;
 
 namespace TickTick.Models
 {
     public class Person : BaseAuditableEntity, IEquatable<Person>
     {
-        public Guid PublicId { get; private set; }
+        public Guid PublicId { get; private set; } = new Guid();
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string? MiddleName { get; set; }
@@ -44,6 +45,19 @@ namespace TickTick.Models
             else {
                 return this.PublicId == other?.PublicId;
             }
+        }
+   
+        public PersonDto ConvertToDto()
+        {
+            return new PersonDto()
+            {
+                PublicId = this.PublicId,
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                MiddleName = this.MiddleName,
+                DateOfBirth = this.DateOfBirth,
+                Email = this.Email
+            };
         }
     }
 }
