@@ -41,13 +41,16 @@ namespace TickTick.Models
 
         }
 
-        public void AddLocation(Location loc)
+        public void AddLocation(LocationDto loc)
         {
             if(this.Addresses == null)
             {
                 this.Addresses = new List<Location>();
             }
-            this.Addresses.Add(loc);
+            Location newL = new Location(
+                loc.City,
+                loc.Country);
+            this.Addresses.Add(newL);
         }
 
         public void RemoveLocation(Location loc)
