@@ -59,5 +59,10 @@ namespace TickTick.Models
                 Email = this.Email
             };
         }
+
+        public void CreatePublicId()
+        {
+            this.PublicId = Guid.NewGuid();
+        }
     }
 }

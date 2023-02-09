@@ -6,8 +6,30 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <ProjectReference Include="..\TickTick.Models\TickTick.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Swashbuckle.AspNetCore" />
+    <None Remove="Microsoft.AspNetCore.Mvc.Versioning" />
+    <None Remove="ResponseWrappers\" />
+    <None Remove="Services\" />
+    <None Remove="Extensions\" />
+    <None Remove="Dtos\" />
+    <None Remove="Dtos\Persons\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ResponseWrappers\" />
+    <Folder Include="Services\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Dtos\" />
+    <Folder Include="Dtos\Persons\" />
+  </ItemGroup>
 </Project>
