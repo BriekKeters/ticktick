@@ -8,6 +8,5 @@ namespace TickTick.Api
         void DeletePerson(Guid id);
         PersonDto AddPerson(AddPersonDto dto);
         PersonDto UpdatePerson(Guid id, PersonDto dto);
-        public PersonDto AddLocation(PersonDto dto, LocationDto loc);
     }
 }

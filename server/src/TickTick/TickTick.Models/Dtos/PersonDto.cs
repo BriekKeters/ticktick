@@ -13,6 +13,7 @@ namespace TickTick.Models.Dtos
         public string LastName { get; set; }
         public string? MiddleName { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public DateTime? DeathDate { get; set; }
         public string Email { get; set; }
     }
 }

@@ -36,17 +36,6 @@ namespace TickTick.Api
             person.update(dto);
             return person.ConvertToDto();
         }
-        public PersonDto AddLocation(PersonDto dto, LocationDto loc)
-        {
-            Person person = new Person(
-                dto.FirstName,
-                dto.LastName,
-                dto.Email
-                );
-            person.AddLocation(loc);
-            person.update(dto);
-            return person.ConvertToDto();
-        }
     }
 }
 
