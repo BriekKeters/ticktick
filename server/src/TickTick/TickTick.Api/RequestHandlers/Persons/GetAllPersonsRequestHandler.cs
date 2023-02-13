@@ -21,7 +21,7 @@ namespace TickTick.Api.RequestHandlers.Persons
 
         public async Task<IEnumerable<PersonDto>> Handle(GetAllPersonsRequest request, CancellationToken cancellationToken)
         {
-            var people = await PersonRepo.GetAll().ToListAsync();
+            var people = await PersonRepo.GetAllAsync(p=>p.IsDeleted == false);
             var dto = new List<PersonDto>();
             foreach(var person in people)
             {

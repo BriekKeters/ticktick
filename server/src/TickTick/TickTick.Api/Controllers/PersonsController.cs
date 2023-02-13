@@ -42,35 +42,33 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 200)]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            //TODO: Haal een persoon op
-            Person person = new Person("Kevin", "DeRudder", "kevin.derudder@gmail.com");
-            return Ok(person.ConvertToDto());
+            return await ExecuteRequest(new GetPersonRequest(id));
         }
 
-        [HttpGet("/v{v:apiVersion}/[controller]/{id:Guid}/locations")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(IEnumerable<LocationDto>), 200)]
-        public IActionResult GetPersonLocation(Guid id)
-        {
-            //TODO: Haal een persoon op
-            List<Location> locations = new()
-            {
-                new Location("Ghent", "Belgium"),
-                new Location("Aalst", "Belgium"),
-                new Location("Poperinge", "Belgium"),
-                new Location("Kortrijk", "Belgium"),
-                new Location("Mechelen", "Belgium"),
+        //[HttpGet("/v{v:apiVersion}/[controller]/{id:Guid}/locations")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //[ProducesResponseType(typeof(IEnumerable<LocationDto>), 200)]
+        //public IActionResult GetPersonLocation(Guid id)
+        //{
+        //    //TODO: Haal een persoon op
+        //    List<Location> locations = new()
+        //    {
+        //        new Location("Ghent", "Belgium"),
+        //        new Location("Aalst", "Belgium"),
+        //        new Location("Poperinge", "Belgium"),
+        //        new Location("Kortrijk", "Belgium"),
+        //        new Location("Mechelen", "Belgium"),
 
-            };
-            List<LocationDto> dtos = new List<LocationDto>();
-            locations.ForEach(loc => { dtos.Add(loc.ConvertToDto()); });
-            return Ok(new Response<IEnumerable<LocationDto>>(dtos));
-        }
+        //    };
+        //    List<LocationDto> dtos = new List<LocationDto>();
+        //    locations.ForEach(loc => { dtos.Add(loc.ConvertToDto()); });
+        //    return Ok(new Response<IEnumerable<LocationDto>>(dtos));
+        //}
 
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -80,12 +78,7 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 204)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            Person p = await _repo.GetAsync(p => p.PublicId == id);
-            svc.DeletePerson(p);
-
-            _repo.Delete(p);
-            await _repo.SaveAsync();
-            return NoContent();
+            return await ExecuteRequest(new DeletePersonRequest(id));
         }
 
         [HttpPost]

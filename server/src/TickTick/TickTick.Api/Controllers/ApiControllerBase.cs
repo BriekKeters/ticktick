@@ -22,8 +22,10 @@ namespace TickTick.Api.Controllers
             var response = new Response<T>();
             try
             {
-                if (request == null) throw new ArgumentNullException("Request cqnnot be null.");
-                var result = mediatr.Send(request);
+                if (request == null) throw new ArgumentNullException("Request cannot be null.");
+                var result = await mediatr.Send(request);
+                response.Status = System.Net.HttpStatusCode.OK;
+                response.Data = result;
                 return StatusCode((int)response.Status, response);
             }
             catch (Exception ex)
