@@ -14,8 +14,7 @@
     <Folder Include="Base\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TickTick.Models\TickTick.Models.csproj" />
-    <ProjectReference Include="..\TickTick.Api\TickTick.Api.csproj" />
     <ProjectReference Include="..\TickTick.Data\TickTick.Data.csproj" />
+    <ProjectReference Include="..\TickTick.Models\TickTick.Models.csproj" />
   </ItemGroup>
 </Project>

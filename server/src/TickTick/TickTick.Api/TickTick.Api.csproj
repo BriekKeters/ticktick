@@ -13,6 +13,9 @@
     <ProjectReference Include="..\TickTick.Data\TickTick.Data.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\TickTick.Repository\TickTick.Repositories.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +32,10 @@
     <None Remove="Microsoft.EntityFrameworkCore.Relational" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
     <None Remove="NuGet.Commands" />
+    <None Remove="RequestHandlers\" />
+    <None Remove="MediatR" />
+    <None Remove="RequestHandlers\Persons\" />
+    <None Remove="MediatR.Extensions.Microsoft.DependencyInjection" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -45,6 +52,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="NuGet.Commands" Version="6.4.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ResponseWrappers\" />
@@ -52,5 +61,7 @@
     <Folder Include="Extensions\" />
     <Folder Include="Dtos\" />
     <Folder Include="Dtos\Persons\" />
+    <Folder Include="RequestHandlers\" />
+    <Folder Include="RequestHandlers\Persons\" />
   </ItemGroup>
 </Project>

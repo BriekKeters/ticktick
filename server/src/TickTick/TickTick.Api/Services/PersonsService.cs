@@ -2,6 +2,7 @@
 using TickTick.Api.Dtos.Persons;
 using TickTick.Models;
 using TickTick.Api.Dtos;
+using TickTick.Repositories.Base;
 
 namespace TickTick.Api
 {
@@ -11,9 +12,9 @@ namespace TickTick.Api
         {
         }
 
-        public void DeletePerson(Guid id)
+        public void DeletePerson(Person p)
         {
-            //TODO databaze shizzle
+            p.Delete();
         }
         public PersonDto AddPerson(AddPersonDto dto)
         {
@@ -25,16 +26,10 @@ namespace TickTick.Api
             person.CreatePublicId();
             return person.ConvertToDto();
         }
-        public PersonDto UpdatePerson(Guid id, PersonDto dto)
+        public PersonDto UpdatePerson(Person p, PersonDto dto)
         {
-            //TODO databaze shizzle
-            Person person = new Person(
-                dto.FirstName,
-                dto.LastName,
-                dto.Email
-                );
-            person.update(dto.FirstName, dto.LastName,dto.MiddleName,dto.DateOfBirth,dto.Email);
-            return person.ConvertToDto();
+            p.update(dto.FirstName, dto.LastName,dto.MiddleName,dto.DateOfBirth,dto.Email);
+            return p.ConvertToDto();
         }
     }
 }

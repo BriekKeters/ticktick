@@ -32,11 +32,11 @@ namespace TickTick.Models
 
         public void update(string firstName,string lastName,string middleName,DateTime? dob, string email)
         {
-            this.FirstName = FirstName;
-            this.LastName = LastName;
-            this.Email = Email;
-            this.DateOfBirth = DateOfBirth;
-            this.MiddleName = MiddleName;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.DateOfBirth = dob;
+            this.MiddleName = middleName;
 
         }
 

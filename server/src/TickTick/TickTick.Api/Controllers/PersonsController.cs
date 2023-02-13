@@ -1,23 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TickTick.Api.Dtos;
 using TickTick.Api.Dtos.Persons;
+using TickTick.Api.RequestHandlers.Persons;
 using TickTick.Models;
+using TickTick.Repositories.Base;
 
 namespace TickTick.Api.Controllers
 {
     [Route("/v{v:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
-    public class PersonsController : ControllerBase
+    public class PersonsController : ApiControllerBase
     {
         private readonly IPersonsService svc;
+        private readonly IRepository<Person> _repo;
 
         private IList<Person> People { get; set; } = new List<Person>();
 
-        public PersonsController(IPersonsService service)
+        public PersonsController(IPersonsService service, IRepository<Person> repo, IMediator mediator):base(mediator)
         {
             this.svc = service;
+            this._repo = repo ?? throw new ArgumentNullException(nameof(repo));
         }
 
         [HttpGet]
@@ -26,25 +31,9 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 200)]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            try { 
-                People.Add(new Person("John", "Doe", "john@mail.com"));
-                People.Add(new Person("Kevin", "DeRudder", "kevin.derudder@gmail.com"));
-
-                Response<IEnumerable<Person>> resp = new Response<IEnumerable<Person>>();
-                resp.Data = People;
-                return Ok(resp);
-
-            }
-            catch(Exception ex)
-            {
-                Response < IEnumerable < Person >> r = new Response<IEnumerable<Person>>();
-                r.Data = null;
-                r.Message = ex.Message;
-                r.Status = System.Net.HttpStatusCode.InternalServerError;
-                return StatusCode(500, r);
-            }
+            return await ExecuteRequest(new GetAllPersonsRequest());
         }
 
         [HttpGet("{id:Guid}")]
@@ -89,9 +78,13 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 204)]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            svc.DeletePerson(id);
+            Person p = await _repo.GetAsync(p => p.PublicId == id);
+            svc.DeletePerson(p);
+
+            _repo.Delete(p);
+            await _repo.SaveAsync();
             return NoContent();
         }
 
@@ -101,10 +94,14 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 201)]
-        public IActionResult Post([FromBody] AddPersonDto person)
+        public async Task<IActionResult> Post([FromBody] AddPersonDto person)
         {
             PersonDto p = svc.AddPerson(person);
-            return CreatedAtAction(nameof(Get), new { id = p.PublicId }, person);
+            Person neP = new Person(person.FirstName, person.LastName, person.Email);
+            _repo.Add(neP);
+            await _repo.SaveAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = p.PublicId }, p);
         }
 
         [HttpPut("{id:Guid}")]
@@ -113,9 +110,13 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 201)]
-        public IActionResult Put(Guid id, [FromBody]PersonDto dto)
+        public async Task<IActionResult> Put(Guid id, [FromBody]PersonDto dto)
         {
-            PersonDto newP = svc.UpdatePerson(id, dto);
+            Person p = await _repo.GetAsync(p => p.PublicId == id);
+
+            PersonDto newP = svc.UpdatePerson(p, dto);
+            _repo.Update(p);
+            await _repo.SaveAsync();
             return Ok(newP);
         }
     }
