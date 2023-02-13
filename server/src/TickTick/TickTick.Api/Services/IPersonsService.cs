@@ -1,5 +1,5 @@
 ﻿using TickTick.Api.Dtos.Persons;
-using TickTick.Models.Dtos;
+using TickTick.Api.Dtos;
 
 namespace TickTick.Api
 {

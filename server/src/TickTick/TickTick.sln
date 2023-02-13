@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TickTick.Api", "TickTick.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TickTick.Data", "TickTick.Data\TickTick.Data.csproj", "{2FD11141-789A-4A31-AA71-2584A39EC66F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TickTick.Repositories", "TickTick.Repository\TickTick.Repositories.csproj", "{C9760E9B-A272-4B62-AD74-26137676AC8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2FD11141-789A-4A31-AA71-2584A39EC66F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FD11141-789A-4A31-AA71-2584A39EC66F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FD11141-789A-4A31-AA71-2584A39EC66F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9760E9B-A272-4B62-AD74-26137676AC8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9760E9B-A272-4B62-AD74-26137676AC8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9760E9B-A272-4B62-AD74-26137676AC8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9760E9B-A272-4B62-AD74-26137676AC8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

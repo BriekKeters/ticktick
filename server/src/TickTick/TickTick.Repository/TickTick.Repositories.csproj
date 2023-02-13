@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>TickTick.Repository</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TickTick.Models\TickTick.Models.csproj" />
+    <ProjectReference Include="..\TickTick.Api\TickTick.Api.csproj" />
+    <ProjectReference Include="..\TickTick.Data\TickTick.Data.csproj" />
+  </ItemGroup>
+</Project>

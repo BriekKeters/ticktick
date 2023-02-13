@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TickTick.Api.Dtos;
 using TickTick.Models;
-using TickTick.Models.Dtos;
 
 namespace TickTick.Api.Controllers
 {

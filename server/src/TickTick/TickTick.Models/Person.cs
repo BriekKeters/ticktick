@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TickTick.Models.Dtos;
 
 namespace TickTick.Models
 {
@@ -31,13 +30,13 @@ namespace TickTick.Models
             this.IsDeleted = true;
         }
 
-        public void update(PersonDto dto)
+        public void update(string firstName,string lastName,string middleName,DateTime? dob, string email)
         {
-            this.FirstName = dto.FirstName;
-            this.LastName = dto.LastName;
-            this.Email = dto.Email;
-            this.DateOfBirth = dto.DateOfBirth;
-            this.MiddleName = dto.MiddleName;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Email = Email;
+            this.DateOfBirth = DateOfBirth;
+            this.MiddleName = MiddleName;
 
         }
 
@@ -55,19 +54,6 @@ namespace TickTick.Models
             else {
                 return this.PublicId == other?.PublicId;
             }
-        }
-   
-        public PersonDto ConvertToDto()
-        {
-            return new PersonDto()
-            {
-                PublicId = this.PublicId,
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                MiddleName = this.MiddleName,
-                DateOfBirth = this.DateOfBirth,
-                Email = this.Email
-            };
         }
 
         public void CreatePublicId()

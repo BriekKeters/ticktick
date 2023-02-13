@@ -1,7 +1,7 @@
 ﻿using System;
 using TickTick.Api.Dtos.Persons;
 using TickTick.Models;
-using TickTick.Models.Dtos;
+using TickTick.Api.Dtos;
 
 namespace TickTick.Api
 {
@@ -33,7 +33,7 @@ namespace TickTick.Api
                 dto.LastName,
                 dto.Email
                 );
-            person.update(dto);
+            person.update(dto.FirstName, dto.LastName,dto.MiddleName,dto.DateOfBirth,dto.Email);
             return person.ConvertToDto();
         }
     }
