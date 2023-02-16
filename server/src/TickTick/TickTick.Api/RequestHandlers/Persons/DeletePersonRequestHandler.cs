@@ -16,7 +16,7 @@ namespace TickTick.Api.RequestHandlers.Persons
             PublicId = publicId;
         }
     }
-	public class DeletePersonRequestHandler: IRequestHandler<DeletePersonRequest,PersonDto>
+	public class DeletePersonRequestHandler: IRequestHandler<DeletePersonRequest, PersonDto>
 	{
         private readonly IRepository<Person> personRepo;
 
@@ -29,6 +29,7 @@ namespace TickTick.Api.RequestHandlers.Persons
         {
             var p = await personRepo.GetAsync(p => p.PublicId == request.PublicId && p.IsDeleted == false);
             p.Delete();
+            await personRepo.SaveAsync();
             return p.ConvertToDto();
         }
     }

@@ -13,7 +13,7 @@ namespace TickTick.Api
 		{
             services.AddTransient<IPersonsService, PersonsService>();
 			services.AddTransient<IRepository<Person>, Repository<Person>>();
-			services.AddTransient<ISongService, SongService>();
+			services.AddTransient<IPlaylistItemService, PlaylistItemService>();
 			services.AddTransient<IRepository<PlaylistItem>, Repository<PlaylistItem>>();
 
 			services.AddMediatR(System.Reflection.Assembly.GetAssembly(typeof(IOCExtentions)));

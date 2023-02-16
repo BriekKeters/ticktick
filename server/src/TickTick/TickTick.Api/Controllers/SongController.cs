@@ -1,4 +1,5 @@
 ﻿using System;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TickTick.Api.Dtos;
@@ -6,20 +7,19 @@ using TickTick.Api.Dtos.Persons;
 using TickTick.Api.Services;
 using TickTick.Models;
 using TickTick.Repositories.Base;
+using TickTick.Api.RequestHandlers.PlaylistItems;
 
 namespace TickTick.Api.Controllers
 {
     [Route("/v{v:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
-    public class SongController:ControllerBase
+    public class SongController:ApiControllerBase
 	{
-        private readonly ISongService _svc;
         private readonly IRepository<PlaylistItem> _repo;
 
-        public SongController(ISongService svc, IRepository<PlaylistItem> repo)
+        public SongController(IRepository<PlaylistItem> repo,IMediator mediator):base(mediator)
 		{
-            this._svc = svc;
             this._repo = repo;
 		}
 
@@ -28,11 +28,10 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(IEnumerable<SongDto>), 204)]
+        [ProducesResponseType(typeof(IEnumerable<PlaylistItemDto>), 204)]
         public async Task<IActionResult> Delete(Guid id)
         {
             PlaylistItem song = await _repo.GetAsync(song => song.PublicId == id && song.Type == PlaylistItemType.Song);
-            _svc.DeleteItem(song);
 
             _repo.Delete(song);
             await _repo.SaveAsync();
@@ -44,14 +43,10 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(IEnumerable<SongDto>), 201)]
-        public async Task<IActionResult> Post([FromBody] SongDto dto)
+        [ProducesResponseType(typeof(IEnumerable<PlaylistItemDto>), 201)]
+        public async Task<IActionResult> Post([FromBody] PlaylistItemDto dto)
         {
-            Song song = _svc.AddSong(dto);
-            _repo.Add(song);
-            await _repo.SaveAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = song.PublicId }, song.ConvertToDto());
+            return await ExecuteRequest(new PostPlaylistRequest(dto));
         }
 
         [HttpPut("{id:Guid}")]
@@ -59,12 +54,12 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(IEnumerable<SongDto>), 201)]
-        public async Task<IActionResult> Put(Guid id, [FromBody] SongDto dto)
+        [ProducesResponseType(typeof(IEnumerable<PlaylistItemDto>), 201)]
+        public async Task<IActionResult> Put(Guid id, [FromBody] PlaylistItemDto dto)
         {
             var p = await _repo.GetAsync(p => p.PublicId == id && p.Type == PlaylistItemType.Song);
 
-            _svc.UpdateSong((Song)p, dto);
+            //_svc.UpdateSong((Song)p, dto);
             _repo.Update(p);
             await _repo.SaveAsync();
             return Ok(p);
@@ -74,7 +69,7 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(IEnumerable<SongDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<PlaylistItemDto>), 200)]
         public async Task<IActionResult> Get()
         {
             try
@@ -101,7 +96,7 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(IEnumerable<SongDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<PlaylistItemDto>), 200)]
         public async Task<IActionResult> Get(Guid id)
         {
             var p = await _repo.GetAsync(p => p.PublicId == id && p.Type == PlaylistItemType.Song);

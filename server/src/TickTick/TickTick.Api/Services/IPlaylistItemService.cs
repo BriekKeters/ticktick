@@ -3,10 +3,9 @@ using TickTick.Models;
 
 namespace TickTick.Api.Services
 {
-    public interface ISongService
+    public interface IPlaylistItemService
     {
-        Song AddSong(SongDto dto);
-        SongDto UpdateSong(Song p, SongDto dto);
+        PlaylistItem AddItem(PlaylistItemDto dto);
         void DeleteItem(PlaylistItem p);
     }
 }

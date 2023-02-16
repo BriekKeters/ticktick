@@ -18,6 +18,13 @@ namespace TickTick.Models
         public PlaylistItemType Type { get; set; }
         public bool IsDeleted { get; private set; }
 
+        public PlaylistItem(string title, string performer,PlaylistItemType type)
+        {
+            Title = title;
+            Performer = performer;
+            Type = type;
+        }
+
         public void Delete()
         {
             this.IsDeleted = true;

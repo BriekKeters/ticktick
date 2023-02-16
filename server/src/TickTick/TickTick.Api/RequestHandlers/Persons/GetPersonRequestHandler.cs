@@ -1,6 +1,7 @@
 ﻿using System;
 using MediatR;
 using TickTick.Api.Dtos;
+using TickTick.Api.Dtos.Persons;
 using TickTick.Models;
 using TickTick.Repositories.Base;
 

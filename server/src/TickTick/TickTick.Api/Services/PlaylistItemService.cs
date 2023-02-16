@@ -5,23 +5,19 @@ using TickTick.Models;
 
 namespace TickTick.Api.Services
 {
-	public class PlaylistItemService
-	{
-		public PlaylistItemService()
-		{
-		}
+    public class PlaylistItemService : IPlaylistItemService
+    {
+        public PlaylistItemService()
+        {
+        }
 
         public void DeleteItem(PlaylistItem p)
         {
             p.Delete();
         }
-        public PlaylistItem AddSong(Song dto)
+        public PlaylistItem AddItem(PlaylistItemDto dto)
         {
-            PlaylistItem song = new PlaylistItem()
-            {
-                Title = dto.Title,
-                Performer = dto.Performer
-            };
+            PlaylistItem song = new PlaylistItem(dto.Title, dto.Performer, dto.Type);
             song.CreatePublicId();
             return song;
         }

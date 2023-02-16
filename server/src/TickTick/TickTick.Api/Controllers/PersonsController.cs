@@ -47,29 +47,6 @@ namespace TickTick.Api.Controllers
             return await ExecuteRequest(new GetPersonRequest(id));
         }
 
-        //[HttpGet("/v{v:apiVersion}/[controller]/{id:Guid}/locations")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //[ProducesResponseType(typeof(IEnumerable<LocationDto>), 200)]
-        //public IActionResult GetPersonLocation(Guid id)
-        //{
-        //    //TODO: Haal een persoon op
-        //    List<Location> locations = new()
-        //    {
-        //        new Location("Ghent", "Belgium"),
-        //        new Location("Aalst", "Belgium"),
-        //        new Location("Poperinge", "Belgium"),
-        //        new Location("Kortrijk", "Belgium"),
-        //        new Location("Mechelen", "Belgium"),
-
-        //    };
-        //    List<LocationDto> dtos = new List<LocationDto>();
-        //    locations.ForEach(loc => { dtos.Add(loc.ConvertToDto()); });
-        //    return Ok(new Response<IEnumerable<LocationDto>>(dtos));
-        //}
-
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -78,7 +55,8 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 204)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return await ExecuteRequest(new DeletePersonRequest(id));
+            await ExecuteRequest(new DeletePersonRequest(id));
+            return NoContent();
         }
 
         [HttpPost]
@@ -86,15 +64,10 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(IEnumerable<PersonDto>), 201)]
+        [ProducesResponseType(typeof(IEnumerable<AddPersonDto>), 201)]
         public async Task<IActionResult> Post([FromBody] AddPersonDto person)
         {
-            PersonDto p = svc.AddPerson(person);
-            Person neP = new Person(person.FirstName, person.LastName, person.Email);
-            _repo.Add(neP);
-            await _repo.SaveAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = p.PublicId }, p);
+            return await ExecuteRequest(new PostPersonRequest(person));
         }
 
         [HttpPut("{id:Guid}")]
@@ -103,14 +76,9 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 201)]
-        public async Task<IActionResult> Put(Guid id, [FromBody]PersonDto dto)
+        public async Task<IActionResult> Put(Guid id, [FromBody] PersonDto dto)
         {
-            Person p = await _repo.GetAsync(p => p.PublicId == id);
-
-            PersonDto newP = svc.UpdatePerson(p, dto);
-            _repo.Update(p);
-            await _repo.SaveAsync();
-            return Ok(newP);
+            return await ExecuteRequest(new PutPersonRequest(id, dto));
         }
     }
 }
