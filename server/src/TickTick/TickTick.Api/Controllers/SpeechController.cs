@@ -14,11 +14,11 @@ namespace TickTick.Api.Controllers
     [Route("/v{v:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
-    public class SongController:ApiControllerBase
+    public class SpeechController:ApiControllerBase
 	{
         private readonly IRepository<PlaylistItem> _repo;
 
-        public SongController(IRepository<PlaylistItem> repo,IMediator mediator):base(mediator)
+        public SpeechController(IRepository<PlaylistItem> repo,IMediator mediator):base(mediator)
 		{
             this._repo = repo;
 		}
@@ -63,7 +63,7 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<PlaylistItemDto>), 200)]
         public async Task<IActionResult> Get()
         {
-            return await ExecuteRequest(new GetAllPlaylistItemRequest(PlaylistItemType.Song));
+            return await ExecuteRequest(new GetAllPlaylistItemRequest(PlaylistItemType.Speech));
 
         }
 
@@ -75,7 +75,7 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<PlaylistItemDto>), 200)]
         public async Task<IActionResult> Get(Guid id)
         {
-            return await ExecuteRequest(new GetPlaylistItemRequest(id, PlaylistItemType.Song));
+            return await ExecuteRequest(new GetPlaylistItemRequest(id, PlaylistItemType.Speech));
 
         }
     }
